@@ -36,6 +36,7 @@ public class UserService {
         if (userFromDB != null) {
             System.out.println("Пользователь с таким именем уже есть в базе");
         } else {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             userRepository.save(user);
         }
     }
