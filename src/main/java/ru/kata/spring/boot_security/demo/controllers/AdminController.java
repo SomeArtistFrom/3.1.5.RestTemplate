@@ -6,14 +6,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.MyUserDetailsService;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,15 +31,12 @@ public class AdminController {
     @GetMapping()
     public String showAllUsers(Model model) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = myUserDetailsService.findByUsername(userDetails.getUsername());
 
-//        User user = myUserDetailsService.findByUsername(userDetails.getUsername());
-        model.addAttribute("authorizedUser", userDetails);
-//        model.addAttribute("authorizedUser", userService.showOneUser(user.getId()));
-
+        model.addAttribute("authorizedUser", userService.showOneUser(user.getId()));
         model.addAttribute("newUser", new User());
         model.addAttribute("users", userService.showAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
-
         return "admin";
     }
 
@@ -51,34 +46,15 @@ public class AdminController {
         return "user";
     }
 
-    @GetMapping("/new")
-    public String createNewUser(@ModelAttribute("user") User user) {
-        return "new";
-    }
-
     @PostMapping()
-    public String save(@ModelAttribute("user") @Valid User user,
-                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "new";
-        }
+    public String save(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.showOneUser(id));
-        return "admin";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult, @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "admin";
-        }
-        userService.update(id, user);
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User user) {
+        userService.update(user);
         return "redirect:/admin";
     }
 
