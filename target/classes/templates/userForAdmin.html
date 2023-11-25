@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <title>AdminPage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand">
+    <p class="text-white bg-dark"
+       th:text="${user.getUsername()} + ' with roles : ' + ${user.getAuthorities()}">VALUE</p>
+  </a>
+
+  <form th:action="@{/logout}" th:method="POST" class="form-inline my-2 my-lg-0">
+    <button type="submit" class="btn btn-link text-secondary">Logout</button>
+  </form>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col px-0">
+<!--      <button id="admin-button" class="btn btn-primary btn-block text-left" href="/admin">Admin</button>-->
+<!--      <button id="user-button" class="btn btn-primary btn-block text-left" href="/userForAdmin">User</button>-->
+      <div class="list-group listAdminBottom">
+        <a href="/admin" class="list-group-item list-group-item-action active">Admin</a>
+      </div>
+      <div class="list-group listUserBottom">
+        <a href="/admin/userForAdmin" class="list-group-item list-group-item-action">User</a>
+      </div>
+
+    </div>
+
+    <div class="col-10 bg-light d-flex flex-column vh-100">
+
+      <p class="h1">User info page </p>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+
+          <div class="card">
+            <div class="card-header p-3 mb-2  bg-light text-dark"><strong>About user </strong></div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Profession</th>
+                  <th scope="col">Password</th>
+                  <th scope="col">Roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td><p th:text="${user.getId()}">VALUE</p></td>
+                  <td><p th:text="${user.getUsername()}">VALUE</p></td>
+                  <td><p th:text="${user.getAge()}">VALUE</p></td>
+                  <td><p th:text="${user.getProfession()}">VALUE</p></td>
+                  <td><p th:text="${user.getPassword()}">VALUE</p></td>
+                  <td><p th:text="${user.getRoles()}">VALUE</p></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
