@@ -32,16 +32,12 @@ public class AdminController {
 
     @GetMapping()
     public String showAllUsers(Model model) {
-        // model.addAttribute("users", userService.showAllUsers());
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        org.springframework.security.core.userdetails.User userSecurity =
-//                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-//        User user = myUserDetailsService.findByUsername(userSecurity.getUsername());
-//        model.addAttribute("user", userService.showOneUser(user.getId()));
-
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+//        User user = myUserDetailsService.findByUsername(userDetails.getUsername());
         model.addAttribute("authorizedUser", userDetails);
+//        model.addAttribute("authorizedUser", userService.showOneUser(user.getId()));
+
         model.addAttribute("newUser", new User());
         model.addAttribute("users", userService.showAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
