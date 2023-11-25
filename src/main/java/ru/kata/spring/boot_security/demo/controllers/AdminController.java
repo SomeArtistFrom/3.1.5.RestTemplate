@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.services.MyUserDetailsService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -28,22 +29,21 @@ public class AdminController {
 
 
     @GetMapping()
-    public String admin(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        org.springframework.security.core.userdetails.User userSecurity =
-                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        User user = myUserDetailsService.findByUsername(userSecurity.getUsername());
-        model.addAttribute("user", userService.showOneUser(user.getId()));
-
-            model.addAttribute("users", userService.showAllUsers());
+    public String showAllUsers(Model model) {
+        model.addAttribute("users", userService.showAllUsers());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        org.springframework.security.core.userdetails.User userSecurity =
+//                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+//        User user = myUserDetailsService.findByUsername(userSecurity.getUsername());
+//        model.addAttribute("user", userService.showOneUser(user.getId()));
         return "admin";
     }
 
-//    @GetMapping("/{id}")
-//    public String showOneUser(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("user", userService.showOneUser(id));
-//        return "showOne";
-//    }
+    @GetMapping("/{id}")
+    public String showOneUser(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", userService.showOneUser(id));
+        return "user";
+    }
 
     @GetMapping("/new")
     public String createNewUser(@ModelAttribute("user") User user) {
@@ -52,7 +52,7 @@ public class AdminController {
 
     @PostMapping()
     public String save(@ModelAttribute("user") @Valid User user,
-                              BindingResult bindingResult) {
+                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "new";
         }
@@ -63,14 +63,14 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.showOneUser(id));
-        return "edit";
+        return "admin";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult, @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
-            return "edit";
+            return "admin";
         }
         userService.update(id, user);
         return "redirect:/admin";

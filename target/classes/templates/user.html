@@ -1,33 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <meta charset="UTF-8">
-    <title>UserPage</title>
+    <title>AdminPage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-<!--<h1>User, welcome spring boot security page!</h1>-->
-
-<!--<br/>-->
-<!--<hr/>-->
-
-<!--<p th:text="'Name: ' + ${user.getUsername()}">VALUE</p>-->
-<!--<p th:text="'Age: ' + ${user.getAge()}">VALUE</p>-->
-<!--<p th:text="'Profession: ' + ${user.getProfession()}">VALUE</p>-->
-
-<!--<br/>-->
-<!--<hr/>-->
-
-<!--<form th:action="@{/logout}" th:method="POST">-->
-<!--    <input type="submit" value="Logout"/></form>-->
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand">
         <p class="text-white bg-dark"
-           th:text="${user.getUsername()} + ' with roles : ' + ${user.getRoles()}">VALUE</p>
+           th:text="${user.getUsername()} + ' with roles : ' + ${user.getAuthorities()}">VALUE</p>
     </a>
 
     <form th:action="@{/logout}" th:method="POST" class="form-inline my-2 my-lg-0">
@@ -35,31 +22,50 @@
     </form>
 </nav>
 
-
 <div class="container-fluid">
     <div class="row">
         <div class="col px-0">
-            <button type="button" class="btn btn-primary btn-lg btn-block text-left"
-                    th:text="${user.getRoles()}">VALUE</button>
+            <button id="user-button" class="btn btn-primary btn-block text-left">User</button>
+<!--            <div class="list-group listUserBottom">-->
+<!--                <a class="list-group-item list-group-item-action btn btn-primary" style="border: none">User</a>-->
+<!--            </div>-->
         </div>
-        <div class="col-10 ">
+
+        <div class="col-10 bg-light d-flex flex-column vh-100">
             <p class="h1">User info page </p>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Profession</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><p th:text="${user.getUsername()}">VALUE</p></td>
-                    <td><p th:text="${user.getAge()}">VALUE</p></td>
-                    <td><p th:text="${user.getProfession()}">VALUE</p></td>
-                </tr>
-                </tbody>
-            </table>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+
+                    <div class="card">
+                        <div class="card-header p-3 mb-2  bg-light text-dark"><strong>About user </strong></div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Profession</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Roles</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><p th:text="${user.getId()}">VALUE</p></td>
+                                    <td><p th:text="${user.getUsername()}">VALUE</p></td>
+                                    <td><p th:text="${user.getAge()}">VALUE</p></td>
+                                    <td><p th:text="${user.getProfession()}">VALUE</p></td>
+                                    <td><p th:text="${user.getPassword()}">VALUE</p></td>
+                                    <td><p th:text="${user.getRoles()}">VALUE</p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -75,6 +81,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
 
 </body>
 </html>
