@@ -28,17 +28,17 @@ public class DatabaseInitializer {
     @PostConstruct
     public void addData() throws Exception {
 
-        Role adminR = new Role(1, "ROLE_ADMIN");
-        Role userR = new Role(2, "ROLE_USER");
+        Role userR = new Role(1, "ROLE_USER");
+        Role adminR = new Role(2, "ROLE_ADMIN");
 
-        Set<Role> adminRoles = new HashSet<>();
         Set<Role> userRoles = new HashSet<>();
+        Set<Role> adminRoles = new HashSet<>();
 
-        roleRepository.save(adminR);
         roleRepository.save(userR);
+        roleRepository.save(adminR);
 
-        adminRoles.add(adminR);
         adminRoles.add(userR);
+        adminRoles.add(adminR);
 
         userRoles.add(userR);
 

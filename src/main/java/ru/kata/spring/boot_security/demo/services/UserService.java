@@ -17,11 +17,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
+@Transactional
     public List<User> showAllUsers() {
         return userRepository.findAll();
     }
 
+    @Transactional
     public User showOneUser(int id) {
         Optional<User> findOneUserById = userRepository.findById(id);
         return findOneUserById.orElse(null);

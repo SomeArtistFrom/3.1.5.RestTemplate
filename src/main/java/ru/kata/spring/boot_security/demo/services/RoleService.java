@@ -15,11 +15,6 @@ private final RoleRepository roleRepository;
         this.roleRepository = roleRepository;
     }
 
-    @Transactional
-    public void save(Role role) {
-        roleRepository.save(role);
-    }
-
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
