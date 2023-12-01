@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public WebSecurityConfig( MyUserDetailsService myUserDetailsService) {
+    public WebSecurityConfig(MyUserDetailsService myUserDetailsService) {
         this.myUserDetailsService = myUserDetailsService;
     }
 
@@ -37,25 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                    .authorizeRequests()
-//                    .antMatchers("/admin/**").hasRole("ADMIN")
-//                    .antMatchers("/user").hasAnyRole("ADMIN", "USER")
-//                    .antMatchers("/","/login").permitAll()
-//                    .anyRequest().authenticated()
-//                .and()
-//                    .formLogin()
-//                    .successHandler(successUserHandler)
-//                    .permitAll()
-//                .and()
-//                    .logout()
-//                    .logoutUrl("/logout")
-//                    .logoutSuccessUrl("/login")
-//                    .permitAll();
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder authManagBuild) throws Exception {

@@ -1,5 +1,6 @@
 const requestUrlPrefix = 'http://localhost:8080/api';
 
+
 if (!document.querySelector('.messages')) {
     const container = document.createElement('div');
     container.classList.add('messages');
@@ -14,6 +15,7 @@ const renderUserInfoTableRowContent = (user) => {
         <td>${user.username}</td>
         <td>${user.age == null ? '' : user.age}</td>
         <td>${user.profession}</td>
+        <td>${user.password}</td>
         <td>
     `;
     user.roles.forEach(role => {
@@ -40,6 +42,7 @@ if (document.getElementById('v-pills-admin')) {
                 <td>${user.username}</td>
                 <td>${user.age == null ? '' : user.age}</td>
                 <td>${user.profession}</td>
+                <td>${user.password}</td>
                 <td>
         `;
         user.roles.forEach(role => {
@@ -71,6 +74,7 @@ if (document.getElementById('v-pills-admin')) {
             <td>${user.username}</td>
             <td>${user.age == null ? '' : user.age}</td>
             <td>${user.profession}</td>
+            <td>${user.password}</td>
             <td>
     `;
         user.roles.forEach(role => {
@@ -113,8 +117,9 @@ if (document.getElementById('v-pills-admin')) {
         <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Profession
             <input id="professionEdit" value="${user.profession}" required type="text" class="form-control mx-auto" style="width: 250px;"></label>
             
-        <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Password
-            <input id="passwordEdit" value="" type="text" class="form-control mx-auto" style="width: 250px;" placeholder="Type new password"></label>
+            <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Password
+            <input id="passwordEdit"  value="${user.password}" type="password" class="form-control mx-auto" style="width: 250px;" placeholder="Type new password"></label>
+            
             
         <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Role
             <select size="2" multiple required class="form-select mx-auto" style="width: 250px;">
@@ -142,6 +147,9 @@ if (document.getElementById('v-pills-admin')) {
         <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Profession</label>
         <input value="${user.profession}" disabled type="text" class="form-control mx-auto" style="width: 250px;">
         
+        <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Password</label>
+        <input value="${user.password}" disabled type="password" class="form-control mx-auto" style="width: 250px;">
+        
         <label class="form-label d-block mx-auto pt-1 mt-3 mb-0 text-center fs-5 fw-bold">Role</label>
         <select size="2" disabled class="form-select mx-auto" style="width: 250px;">
     `;
@@ -159,6 +167,7 @@ if (document.getElementById('v-pills-admin')) {
 
 //Заполнение таблицы "All users" роли администратора.
     sendRequest('GET', '/admin').then(users => renderAllUsersTableContent(users));
+
 
 //Создание нового пользователя, сохранение его в БД и добавление в таблицу "All Users" после нажатия кнопки "Add new user" на вкладке "New user".
     document.getElementById('createUserForm').addEventListener('submit', (event) => {
@@ -213,6 +222,7 @@ if (document.getElementById('v-pills-admin')) {
         document.getElementById('buttonCloseModal').click();
     });
 
+
 //Модальное окно Delete
     document.getElementById('deleteModal').addEventListener('show.bs.modal', (event) => {
         const userId = event.relatedTarget.getAttribute('data-bs-userId');
@@ -220,12 +230,13 @@ if (document.getElementById('v-pills-admin')) {
         sendRequest('GET', '/admin/' + userId).then(user => renderDeleteModalContent(user));
     });
 
-//Удалить пользователя из БД после нажатия кнопки DELETE в модальном окне «Удалить».
+// Удалить пользователя из БД после нажатия кнопки DELETE в модальном окне «Удалить».
     document.getElementById('deleteForm').addEventListener('submit', (event) => {
         event.preventDefault();
         sendRequest('DELETE', '/admin/' + document.getElementById('deleteUserId').value).then(id => allUsersTableRowDelete(id));
     });
 }
+
 
 function sendRequest(method, url, body = null) {
     const options = {
@@ -235,7 +246,6 @@ function sendRequest(method, url, body = null) {
             'Content-Type': 'application/json'
         }
     };
-
     return fetch(requestUrlPrefix + url, method === 'GET' ? null : options).then(response => {
         if (!response.ok) {
             response.status === 409 ? showAlert('Data not saved!\nUser with this email already exists in the database!') :
@@ -246,9 +256,11 @@ function sendRequest(method, url, body = null) {
     });
 }
 
+
 function showAlert(message) {
     const alert = document.createElement('div');
     alert.className = 'alert alert-danger alert-dismissible role="alert" fade show';
     alert.innerHTML = `<div class="fs-5">${message}</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
     messages.appendChild(alert);
 }
+
