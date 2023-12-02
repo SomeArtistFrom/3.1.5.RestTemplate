@@ -1,7 +1,6 @@
 const requestUrlPrefix = 'http://localhost:8080/api';
 
 
-
 if (!document.querySelector('.messages')) {
     const container = document.createElement('div');
     container.classList.add('messages');
@@ -239,8 +238,6 @@ if (document.getElementById('v-pills-admin')) {
 }
 
 
-
-
 function sendRequest(method, url, body = null) {
     const options = {
         method: method,
@@ -258,7 +255,6 @@ function sendRequest(method, url, body = null) {
         return response.json();
     });
 }
-
 
 
 function showAlert(message) {
