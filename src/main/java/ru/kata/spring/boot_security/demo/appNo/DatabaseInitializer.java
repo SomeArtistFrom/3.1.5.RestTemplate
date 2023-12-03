@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.app;
+package ru.kata.spring.boot_security.demo.appNo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,20 +16,18 @@ import java.util.Set;
 public class DatabaseInitializer {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DatabaseInitializer(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public DatabaseInitializer(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
-    public void addData() throws Exception {
+    public void addData(){
 
-        Role userR = new Role(1, "ROLE_USER");
-        Role adminR = new Role(2, "ROLE_ADMIN");
+        Role userR = new Role(1L, "ROLE_USER");
+        Role adminR = new Role(2L, "ROLE_ADMIN");
 
         Set<Role> userRoles = new HashSet<>();
         Set<Role> adminRoles = new HashSet<>();
@@ -42,15 +40,10 @@ public class DatabaseInitializer {
 
         userRoles.add(userR);
 
-        String rawUser = "u";
-        String rawAdmin = "a";
-        String encodedUser = passwordEncoder.encode(rawUser);
-        String encodedAdmin = passwordEncoder.encode(rawAdmin);
-
-        User user = new User("user", 28, encodedUser, "UserProf", userRoles);
-        User admin = new User("admin", 89, encodedAdmin, "AdminProf", adminRoles);
-        User irina = new User("irina", 29, encodedUser, "Artist", userRoles);
-        User test = new User("test", 100, encodedUser, "Test", userRoles);
+        User user = new User("user", 28, "$2a$10$zAh7UkijN9qslJD8QAxvjeRxC7AX6PS4UPcpSVrXGGnsmr.A9yg/K", "UserProf", userRoles);
+        User admin = new User("admin", 89, "$2a$10$4Debu.ACttax8i3/dOPHaehqwllqv53nE/AYuONnL74oSdg3s012i", "AdminProf", adminRoles);
+        User irina = new User("irina", 29, "$2a$10$zAh7UkijN9qslJD8QAxvjeRxC7AX6PS4UPcpSVrXGGnsmr.A9yg/K", "Artist", userRoles);
+        User test = new User("test", 100, "$2a$10$zAh7UkijN9qslJD8QAxvjeRxC7AX6PS4UPcpSVrXGGnsmr.A9yg/K", "Test", userRoles);
 
         userRepository.save(user);
         userRepository.save(admin);

@@ -14,7 +14,7 @@
         <span class="fw-bolder" th:text="${authorizedUser.username}"></span>
         <span> with roles: </span>
         <th:block th:each="role : ${authorizedUser.roles}">
-            <span th:utext="${#strings.substringAfter(role.getAuthority, 'ROLE_')}"></span>
+            <span th:utext="${#strings.substringAfter(role, 'ROLE_')}"></span>
         </th:block>
     </div>
     <div>

@@ -19,7 +19,7 @@ const renderUserInfoTableRowContent = (user) => {
         <td>
     `;
     user.roles.forEach(role => {
-        const authority = role.name;
+        const authority = role.authority;
         content += `
             <span>${authority.substring(authority.lastIndexOf('_') + 1)}</span>
         `;
@@ -46,7 +46,7 @@ if (document.getElementById('v-pills-admin')) {
                 <td>
         `;
         user.roles.forEach(role => {
-            const authority = role.name;
+            const authority = role.authority;
             rowContent += `
                 <span>${authority.substring(authority.lastIndexOf('_') + 1)}</span>
             `;
@@ -78,7 +78,7 @@ if (document.getElementById('v-pills-admin')) {
             <td>
     `;
         user.roles.forEach(role => {
-            const authority = role.name;
+            const authority = role.authority;
             allUsersTableRowContent += `
             <span>${authority.substring(authority.lastIndexOf('_') + 1)}</span>
         `;
@@ -154,7 +154,7 @@ if (document.getElementById('v-pills-admin')) {
         <select size="2" disabled class="form-select mx-auto" style="width: 250px;">
     `;
         user.roles.forEach(role => {
-            const authority = role.name;
+            const authority = role.authority;
             content += `
             <option label="${authority.substring(authority.lastIndexOf('_') + 1)}"></option>
         `;
@@ -174,8 +174,8 @@ if (document.getElementById('v-pills-admin')) {
         event.preventDefault();
         //Собрание информации о новом пользователе в объект
         const newUserRoles = [];
-        if (document.getElementById('newRoleUser').selected) newUserRoles.push({id: 1, name: 'ROLE_USER'});
-        if (document.getElementById('newRoleAdmin').selected) newUserRoles.push({id: 2, name: 'ROLE_ADMIN'});
+        if (document.getElementById('newRoleUser').selected) newUserRoles.push({id: 1, authority: 'ROLE_USER'});
+        if (document.getElementById('newRoleAdmin').selected) newUserRoles.push({id: 2, authority: 'ROLE_ADMIN'});
         const newUser = {
             username: document.getElementById('newUserUsername').value,
             age: document.getElementById('newUserAge').value,
@@ -206,8 +206,8 @@ if (document.getElementById('v-pills-admin')) {
     document.getElementById('editForm').addEventListener('submit', (event) => {
         event.preventDefault();
         const userRolesEdited = [];
-        if (document.getElementById('optionUser').selected) userRolesEdited.push({id: 1, name: 'ROLE_USER'});
-        if (document.getElementById('optionAdmin').selected) userRolesEdited.push({id: 2, name: 'ROLE_ADMIN'});
+        if (document.getElementById('optionUser').selected) userRolesEdited.push({id: 1, authority: 'ROLE_USER'});
+        if (document.getElementById('optionAdmin').selected) userRolesEdited.push({id: 2, authority: 'ROLE_ADMIN'});
         const userEdited = {
             id: document.getElementById('idEdit').value,
             username: document.getElementById('usernameEdit').value,

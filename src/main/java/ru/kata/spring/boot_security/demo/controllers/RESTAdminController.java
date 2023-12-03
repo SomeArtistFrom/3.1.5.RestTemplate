@@ -21,7 +21,8 @@ public class RESTAdminController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> usersList = userService.showAllUsers();
+
+        List<User> usersList = userService.getAllUsers();
         if (usersList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
         }
@@ -29,8 +30,8 @@ public class RESTAdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-        User user = userService.showOneUser(id);
+    public ResponseEntity<User> getUserById(@PathVariable long id) {
+        User user = userService.getUserById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //204
         }
@@ -39,7 +40,7 @@ public class RESTAdminController {
 
     @PostMapping
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
-        if (userService.save(user)) {
+        if (userService.saveUser(user)) {
             return new ResponseEntity<>(user, HttpStatus.CREATED); // 201
         }
         return new ResponseEntity<>(user, HttpStatus.CONFLICT); // 409
@@ -47,15 +48,15 @@ public class RESTAdminController {
 
     @PutMapping()
     public ResponseEntity<User> updateUser(@RequestBody User user) {
-        if (userService.update(user)) {
+        if (userService.updateUser(user)) {
             return new ResponseEntity<>(user, HttpStatus.OK); // 200
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT); // 409
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteUser(@PathVariable int id) {
-        if (userService.delete(id)) {
+    public ResponseEntity<Long> deleteUser(@PathVariable long id) {
+        if (userService.deleteUser(id)) {
             return new ResponseEntity<>(id, HttpStatus.OK); // 200
         }
         return new ResponseEntity<>(id, HttpStatus.NOT_FOUND); //404
