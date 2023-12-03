@@ -60,10 +60,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 !userRepository.findByUsername(user.getUsername()).getId().equals(user.getId())) {
             return false;
         }
+
         if (user.getPassword().isEmpty()) {
             user.setPassword(userRepository.findById(user.getId()).get().getPassword());
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
         return true;
@@ -91,15 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByUsername(name);
     }
 
-//        @Override
-//    @Transactional(readOnly = true)
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = getUserByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
-//        }
-//        return user;
-//    }
+
     private Collection<? extends GrantedAuthority> rolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toList());
     }

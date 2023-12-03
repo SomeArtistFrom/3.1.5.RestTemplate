@@ -121,12 +121,12 @@ public class User implements UserDetails {
         return true;
     }
 
-//    @JsonProperty("roles")
+    @JsonProperty("roles")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toList());
-//        return getRoles();
+        return getRoles();
     }
+
     public boolean isAdmin() {
         for (Role role : roles) {
             if (Objects.equals(role.getAuthority(), "ROLE_ADMIN")) {
